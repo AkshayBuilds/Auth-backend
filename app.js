@@ -25,7 +25,7 @@ const startServer = async () => {
 startServer();
 
 const allowedOrigins = [
-  "https://auth-frontend-pxqz8ccfe-amsp604-gmailcoms-projects.vercel.app"
+  "https://auth-frontend-umber-theta.vercel.app/"
 ];
 
 app.use(express.json());
