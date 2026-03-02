@@ -25,7 +25,7 @@ const startServer = async () => {
 startServer();
 
 const allowedOrigins = [
-  "https://auth-frontend-umber-theta.vercel.app/"
+  "https://auth-frontend-umber-theta.vercel.app"
 ];
 
 app.use(express.json());
