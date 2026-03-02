@@ -129,7 +129,7 @@ const logout = (req,res) => {
     //     sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
     // });
     res.json({
-      message: "Logedout Successfully",
+      message: "Logout Successfully",
       success: true
     })
 }
