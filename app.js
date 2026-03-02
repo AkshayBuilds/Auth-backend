@@ -25,7 +25,7 @@ const startServer = async () => {
 startServer();
 
 const allowedOrigins = [
-  "http://localhost:5173"
+  "https://auth-frontend-umber-theta.vercel.app/"
 ];
 
 app.use(express.json());

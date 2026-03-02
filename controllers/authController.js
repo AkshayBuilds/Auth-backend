@@ -29,13 +29,14 @@ const register = async(req,res) => {
         password: hashedPassword
     })
     const token = jwt.sign({id: user._id}, process.env.JWT_SECRET, { expiresIn: '7d' })
-    res.cookie('token', token, {
-        httpOnly: true,
-        secure: true,
-        sameSite: "None",
-        maxAge: 7 * 24 * 60 * 60 * 1000  
-    })
+    // res.cookie('token', token, {
+    //     httpOnly: true,
+    //     secure: true,
+    //     sameSite: "None",
+    //     maxAge: 7 * 24 * 60 * 60 * 1000  
+    // })
     res.json({
+        token,
         message: "User Register Successfully",
         success: true
     })
@@ -88,13 +89,14 @@ const login = async(req, res) => {
     }
     const token = await jwt.sign({ id: user._id}, process.env.JWT_SECRET, { expiresIn: '7d' })
 
-    res.cookie('token', token, {
-        httpOnly: true,
-        secure: true,
-        sameSite: "None",
-        maxAge: 7 * 24 * 60 * 60 * 1000  
-    })
+    // res.cookie('token', token, {
+    //     httpOnly: true,
+    //     secure: true,
+    //     sameSite: "None",
+    //     maxAge: 7 * 24 * 60 * 60 * 1000  
+    // })
     res.json({
+        token,
         message: "User Loggedin Successfully",
         success: true
     })
@@ -121,11 +123,11 @@ const login = async(req, res) => {
 }
 
 const logout = (req,res) => {
-    res.clearCookie("token" , {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
-    });
+    // res.clearCookie("token" , {
+    //     httpOnly: true,
+    //     secure: process.env.NODE_ENV === 'production',
+    //     sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
+    // });
     res.json({
       message: "Logedout Successfully",
       success: true
@@ -133,6 +135,9 @@ const logout = (req,res) => {
 }
 
 const sendverifyotp = async (req,res) => {
+    const token = req.headers.authorization.split(" ")[1];
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.userId = decoded.id;
     const userId = req.userId
 
     try{
@@ -180,6 +185,9 @@ const sendverifyotp = async (req,res) => {
 }
 
 const verifyOPT = async(req,res) => {
+    const token = req.headers.authorization.split(" ")[1];
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.userId = decoded.id;
     const userId = req.userId
     const {otp} = req.body
 
@@ -338,7 +346,7 @@ const isauth = async(req,res) => {
     } catch (error) {
         return res.json({
             success: false,
-            message: error.message
+            message: error.message,
         })
     }
 }
